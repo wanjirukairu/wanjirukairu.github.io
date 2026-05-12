@@ -1,358 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <link rel="manifest" href="/manifest.json">
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wanjiru Kairu — Writer · Director · Producer · Founder of SetSync</title>
-<meta name="description" content="Wanjiru Kairu is a Kenyan writer, director, producer, and founder of SetSync — the operating system for film production.">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;
-  --border:#222222;--border2:#333333;
-  --text:#f0f0f0;--text2:#888888;--text3:#444444;
-  --red:#e50914;--red2:#ff1a24;--red3:#b00710;
-  --white:#ffffff;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:var(--border2)}
+S
+S
+SetSync
+Problem
+Product
+Call Sheet
+Schedule
+Wrap Report
+Founder
+Open app →
+SETSYNC / V0.9 / EARLY ACCESS · FREE UNTIL PAID PLANS LAUNCH
+Walkie talkies. Paper call sheets. One live app.
+// WHAT IT IS
+The live coordination layer for film sets. Built by an AD with twenty years on set, for the people who actually run the day.
+// WHO IT'S FOR
+1st ADs, line producers, department heads, cast and crew. From student films to studio productions, globally.
+Open the app
+→
+Build a call sheet
+→
+Production schedule
+→
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.97);backdrop-filter:blur(10px)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-ss{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.04em;line-height:1}
-.nav-ss-w{color:var(--white)}
-.nav-ss-r{color:var(--red)}
-.nav-name{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);padding-left:10px;border-left:1px solid var(--border2)}
-.nav-links{display:flex;gap:24px;align-items:center}
-.nav-link{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color 0.2s}
-.nav-link:hover{color:var(--white)}
-.nav-cta{padding:6px 16px;border:1px solid var(--red);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);text-decoration:none;transition:all 0.2s}
-.nav-cta:hover{background:var(--red);color:var(--white)}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 72px;position:relative;overflow:hidden;margin-top:56px}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.3}
-.hero-glow{position:absolute;top:30%;left:20%;width:600px;height:400px;background:radial-gradient(ellipse,rgba(229,9,20,0.04) 0%,transparent 70%);pointer-events:none}
-.hero-eyebrow{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
-.eyebrow-line{width:32px;height:1px;background:var(--red)}
-.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,130px);line-height:0.92;letter-spacing:0.02em;color:var(--white);margin-bottom:12px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards}
-.hero-name span{color:var(--red)}
-.hero-roles{font-family:'Courier Prime',monospace;font-size:13px;color:var(--text2);letter-spacing:0.1em;margin-bottom:32px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards}
-.hero-bio{font-family:'Courier Prime',monospace;font-size:13px;color:var(--text2);line-height:1.85;max-width:560px;margin-bottom:44px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards}
-.hero-bio strong{color:var(--white);font-weight:400}
-.hero-links{display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards}
-.hero-link{padding:10px 20px;border:1px solid var(--border2);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:all 0.2s}
-.hero-link:hover{border-color:var(--white);color:var(--white)}
-.hero-link-primary{background:var(--red);color:var(--white);border-color:var(--red)}
-.hero-link-primary:hover{background:var(--red2);border-color:var(--red2);color:var(--white)}
-
-/* SETSYNC */
-.setsync-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.strip-tag{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
-.strip-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,64px);letter-spacing:0.04em;color:var(--white);margin-bottom:14px;line-height:1}
-.strip-desc{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text2);line-height:1.85;margin-bottom:24px}
-.strip-link{display:inline-block;padding:11px 24px;background:var(--red);color:var(--white);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.2s}
-.strip-link:hover{background:var(--red2)}
-.strip-right{border-left:1px solid var(--border);padding-left:48px;padding-top:6px}
-.strip-features{display:flex;flex-direction:column;gap:16px}
-.strip-feature{display:flex;gap:12px;align-items:baseline}
-.strip-feature-dash{color:var(--red);flex-shrink:0;font-size:14px}
-.strip-feature-text{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text2);line-height:1.6}
-
-/* AWARDS */
-.awards-section{padding:72px 40px;border-bottom:1px solid var(--border)}
-.section-tag{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,56px);letter-spacing:0.04em;color:var(--white);margin-bottom:40px;line-height:1}
-.awards-list{border-top:1px solid var(--border)}
-.award-row{display:grid;grid-template-columns:80px 1fr auto;gap:20px;padding:16px 0;border-bottom:1px solid var(--border);align-items:baseline}
-.award-year{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--red);letter-spacing:0.06em}
-.award-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text);line-height:1.6}
-.award-title span{color:var(--text2);font-style:italic}
-.award-role{font-size:10px;color:var(--text3);letter-spacing:0.1em;text-align:right;white-space:nowrap}
-
-/* CREDITS */
-.credits-section{padding:72px 40px;border-bottom:1px solid var(--border);background:var(--bg2)}
-.credits-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}
-.credits-col-title{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.credit-item{padding:12px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:baseline}
-.credit-item:last-child{border-bottom:none}
-.credit-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--white);font-weight:700}
-.credit-role{font-family:'Courier Prime',monospace;font-size:11px;color:var(--text2)}
-.credit-platform{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-align:right;line-height:1.6}
-
-/* AUDIO SECTION */
-.audio-section{padding:72px 40px;border-bottom:1px solid var(--border)}
-.audio-list{border-top:1px solid var(--border);margin-top:40px}
-.audio-row{display:grid;grid-template-columns:1fr auto auto;gap:20px;padding:14px 0;border-bottom:1px solid var(--border);align-items:baseline}
-.audio-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--white);font-weight:700}
-.audio-role{font-family:'Courier Prime',monospace;font-size:11px;color:var(--text2)}
-.audio-platform{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-align:right}
-.audio-year{font-size:10px;color:var(--text3);text-align:right;white-space:nowrap}
-
-/* FELLOWSHIPS */
-.fellows-section{padding:72px 40px;border-bottom:1px solid var(--border);background:var(--bg2)}
-.fellows-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);margin-top:40px;border:1px solid var(--border)}
-.fellow-card{padding:28px;background:var(--bg2)}
-.fellow-year{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);margin-bottom:6px}
-.fellow-name{font-family:'Courier Prime',monospace;font-size:13px;color:var(--white);font-weight:700;margin-bottom:4px}
-.fellow-org{font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
-
-/* FOOTER */
-footer{padding:40px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.footer-logo{display:flex;align-items:center;gap:8px}
-.footer-ss{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.04em}
-.footer-ss-w{color:var(--white)}
-.footer-ss-r{color:var(--red)}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap}
-.footer-link{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color 0.2s}
-.footer-link:hover{color:var(--white)}
-.footer-note{font-size:10px;color:var(--text3);width:100%}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-@media(max-width:768px){
-  nav{padding:0 20px}
-  .nav-links{display:none}
-  .hero{padding:0 20px 60px}
-  .setsync-strip{grid-template-columns:1fr;padding:32px 20px;gap:28px}
-  .strip-right{border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:28px}
-  .awards-section,.credits-section,.audio-section,.fellows-section{padding:48px 20px}
-  .award-row{grid-template-columns:56px 1fr}
-  .award-role{display:none}
-  .credits-grid{grid-template-columns:1fr}
-  .fellows-grid{grid-template-columns:1fr}
-  .audio-row{grid-template-columns:1fr auto}
-  .audio-platform{display:none}
-  footer{padding:28px 20px}
-}
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-logo">
-    <div class="nav-ss"><span class="nav-ss-w">S</span><span class="nav-ss-r">S</span></div>
-    <div class="nav-name">Wanjiru Kairu</div>
-  </div>
-  <div class="nav-links">
-    <a href="#setsync" class="nav-link">SetSync</a>
-    <a href="#awards" class="nav-link">Awards</a>
-    <a href="#credits" class="nav-link">Credits</a>
-    <a href="https://www.imdb.com/name/nm2620441/" class="nav-link" target="_blank">IMDB</a>
-    <a href="https://www.linkedin.com/in/wanjirukairu/" class="nav-link" target="_blank">LinkedIn</a>
-    <a href="https://setsync.studio" class="nav-cta" target="_blank">SetSync →</a>
-  </div>
-</nav>
-
-<div class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-eyebrow"><div class="eyebrow-line"></div>Nairobi · International</div>
-  <h1 class="hero-name">Wanjiru<br><span>Kairu</span></h1>
-  <div class="hero-roles">Writer · Director · Producer · Founder</div>
-  <p class="hero-bio">
-    Kenyan writer, director, and producer working across film, television, animation, and audio.
-    Writer and line producer of Jongo Love, the International Emmy Award-winning audio drama.
-    Multi-award recipient with credits for M-Net, Showmax, Citizen TV, and LA-based production companies
-    spanning over two decades.<br><br>
-    Founder of SetSync — the first software built to operate inside the film shoot day.
-  </p>
-  <div class="hero-links">
-    <a href="https://setsync.studio" class="hero-link hero-link-primary" target="_blank">SetSync App</a>
-    <a href="https://www.imdb.com/name/nm2620441/" class="hero-link" target="_blank">IMDB Credits</a>
-    <a href="https://www.linkedin.com/in/wanjirukairu/" class="hero-link" target="_blank">LinkedIn</a>
-    <a href="https://vimeo.com/wanjiru" class="hero-link" target="_blank">Vimeo Reel</a>
-  </div>
-</div>
-
-<!-- SETSYNC -->
-<div class="setsync-strip" id="setsync">
-  <div class="strip-left">
-    <div class="strip-tag">Currently Building</div>
-    <div class="strip-title">SetSync</div>
-    <p class="strip-desc">
-      The first software designed to operate inside the film shoot day.
-      Every production tool stops at crew call. SetSync doesn't.
-      Live coordination, real-time scene pivots, AI call sheet generation,
-      and an auto wrap report that writes itself at picture wrap — zero manual entry.
-    </p>
-    <a href="https://setsync.studio" class="strip-link" target="_blank">Visit SetSync →</a>
-  </div>
-  <div class="strip-right">
-    <div class="strip-features">
-      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">SetSync Script — free browser-based screenwriting tool, exports to PDF and Final Draft</span></div>
-      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">AI call sheet generator — reads scripts, extracts scenes, cast, locations automatically</span></div>
-      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">Live on-set coordination — replaces walkie-talkies on every crew member's phone</span></div>
-      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">Auto wrap report — full post-production handoff generated from live shoot data</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- AWARDS -->
-<div class="awards-section" id="awards">
-  <div class="section-tag">Recognition</div>
-  <div class="section-title">Awards &<br>Nominations</div>
-  <div class="awards-list">
-    <div class="award-row">
-      <div class="award-year">2025</div>
-      <div class="award-title">Digital Revolution Awards — Global Winner, Not-For-Profit Digital Project of the Year<br><span>The Mysteries of Jabali & Sauti</span></div>
-      <div class="award-role">Writer</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2024</div>
-      <div class="award-title">Dakar Séries Festival — Best Short Series · Best Actress · Best Editing<br><span>Big Girl, Small World</span></div>
-      <div class="award-role">Writer</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2023</div>
-      <div class="award-title">Kalasha Award — Best Student Feature Film<br><span>Cheza</span></div>
-      <div class="award-role">Script Editor / Dev Executive</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2020</div>
-      <div class="award-title">Africa Magic Viewers' Choice Award<br><span>Promises</span></div>
-      <div class="award-role">Script Editor / Dev Executive</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2013</div>
-      <div class="award-title">International Emmy Award — Jongo Love<br><span>Writer & Line Producer · Audio Drama · Awarded to Well Told Story</span></div>
-      <div class="award-role">Writer & Line Producer</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2010</div>
-      <div class="award-title">Kalasha Award<br><span>Makutano Junction</span></div>
-      <div class="award-role">Writer</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2009</div>
-      <div class="award-title">Kalasha Award<br><span>Tabasamu</span></div>
-      <div class="award-role">Writer</div>
-    </div>
-    <div class="award-row">
-      <div class="award-year">2009–10</div>
-      <div class="award-title">Nominated — AMAA · Kalasha · Durban IFF · Images That Matter<br><span>Weakness</span></div>
-      <div class="award-role">Director</div>
-    </div>
-  </div>
-</div>
-
-<!-- CREDITS -->
-<div class="credits-section" id="credits">
-  <div class="section-tag">Selected Credits</div>
-  <div class="section-title">Film &<br>Television</div>
-  <div class="credits-grid">
-    <div class="credits-col">
-      <div class="credits-col-title">Feature Films</div>
-      <div class="credit-item"><div><div class="credit-title">Killer Set</div><div class="credit-role">Writer · Director · Producer</div></div><div class="credit-platform">The Development Room<br>2026</div></div>
-      <div class="credit-item"><div><div class="credit-title">Tethered</div><div class="credit-role">Writer</div></div><div class="credit-platform">Harding Entertainment<br>2024–25</div></div>
-      <div class="credit-item"><div><div class="credit-title">Hashtag Cancelled</div><div class="credit-role">Writer</div></div><div class="credit-platform">PMF Media / Harding<br>2022–24</div></div>
-      <div class="credit-item"><div><div class="credit-title">Cheza</div><div class="credit-role">Script Editor / Dev Executive</div></div><div class="credit-platform">M-Net / Showmax<br>2021</div></div>
-      <div class="credit-item"><div><div class="credit-title">Promises</div><div class="credit-role">Script Editor / Dev Executive</div></div><div class="credit-platform">M-Net / Showmax<br>2019</div></div>
-      <div class="credit-item"><div><div class="credit-title">Last Round + 9 others</div><div class="credit-role">Writer</div></div><div class="credit-platform">M-Net / Showmax<br>2013–15</div></div>
-    </div>
-    <div class="credits-col">
-      <div class="credits-col-title">Television Series</div>
-      <div class="credit-item"><div><div class="credit-title">Big Girl, Small World</div><div class="credit-role">Writer</div></div><div class="credit-platform">Showmax<br>2023–24</div></div>
-      <div class="credit-item"><div><div class="credit-title">Makutano Junction</div><div class="credit-role">Writer & Director</div></div><div class="credit-platform">Citizen TV / Mediae<br>2007–15</div></div>
-      <div class="credit-item"><div><div class="credit-title">Love Makanika</div><div class="credit-role">Head Writer</div></div><div class="credit-platform">Pearl Magic / M-Net<br>2016</div></div>
-      <div class="credit-item"><div><div class="credit-title">Pepeta</div><div class="credit-role">Story Developer & Writer</div></div><div class="credit-platform">Showmax<br>2021</div></div>
-      <div class="credit-item"><div><div class="credit-title">Sand Storm</div><div class="credit-role">Script Editor & Writer</div></div><div class="credit-platform">FilmAid / UNHCR<br>2019</div></div>
-      <div class="credit-item"><div><div class="credit-title">Kona</div><div class="credit-role">Writer & Story Developer</div></div><div class="credit-platform">M-Net / Maisha Magic<br>2012–13</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ANIMATION & AUDIO -->
-<div class="audio-section">
-  <div class="section-tag">Animation & Audio</div>
-  <div class="section-title">Animation,<br>Radio & Audio</div>
-  <div class="audio-list">
-    <div class="audio-row">
-      <div><div class="audio-title">The Mysteries of Jabali & Sauti</div><div class="audio-role">Writer · Animation</div></div>
-      <div class="audio-platform">NTV Kenya / Akili Kids</div>
-      <div class="audio-year">2024</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">Xaqdhwor</div><div class="audio-role">Writer · Radio Drama</div></div>
-      <div class="audio-platform">Somalian Radio</div>
-      <div class="audio-year">2023–24</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">My Better World</div><div class="audio-role">Writer · Animation</div></div>
-      <div class="audio-platform">Citizen TV</div>
-      <div class="audio-year">2017</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">Talodoon</div><div class="audio-role">Writer · Radio Drama</div></div>
-      <div class="audio-platform">Somalian Radio</div>
-      <div class="audio-year">2019</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">Siasa Mtaani</div><div class="audio-role">Writer · Swahili Radio Drama</div></div>
-      <div class="audio-platform">Radio</div>
-      <div class="audio-year">2013</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">Jongo Love</div><div class="audio-role">Writer & Producer · Audio Drama · International Emmy Award</div></div>
-      <div class="audio-platform">Well Told Story</div>
-      <div class="audio-year">2011–12</div>
-    </div>
-    <div class="audio-row">
-      <div><div class="audio-title">Chakrouok</div><div class="audio-role">Writer · Luo Radio Drama</div></div>
-      <div class="audio-platform">Radio</div>
-      <div class="audio-year">2010–11</div>
-    </div>
-  </div>
-</div>
-
-<!-- FELLOWSHIPS -->
-<div class="fellows-section">
-  <div class="section-tag">Training & Fellowships</div>
-  <div class="section-title">Labs &<br>Fellowships</div>
-  <div class="fellows-grid">
-    <div class="fellow-card">
-      <div class="fellow-year">2024</div>
-      <div class="fellow-name">AuthenticA Series Lab</div>
-      <div class="fellow-org">Realness Institute</div>
-    </div>
-    <div class="fellow-card">
-      <div class="fellow-year">2022</div>
-      <div class="fellow-name">International Writers Lab Fellow</div>
-      <div class="fellow-org">IWL</div>
-    </div>
-    <div class="fellow-card">
-      <div class="fellow-year">2007</div>
-      <div class="fellow-name">Maisha Film Lab</div>
-      <div class="fellow-org">Kampala · Mira Nair</div>
-    </div>
-    <div class="fellow-card">
-      <div class="fellow-year">2006</div>
-      <div class="fellow-name">Berlinale Talent Campus</div>
-      <div class="fellow-org">Doc Station · Berlin</div>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-logo">
-    <div class="footer-ss"><span class="footer-ss-w">S</span><span class="footer-ss-r">S</span></div>
-    <span style="font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;padding-left:8px;border-left:1px solid var(--border2)">Wanjiru Kairu</span>
-  </div>
-  <div class="footer-links">
-    <a href="https://setsync.studio" class="footer-link" target="_blank">SetSync</a>
-    <a href="https://www.imdb.com/name/nm2620441/" class="footer-link" target="_blank">IMDB</a>
-    <a href="https://www.linkedin.com/in/wanjirukairu/" class="footer-link" target="_blank">LinkedIn</a>
-    <a href="https://vimeo.com/wanjiru" class="footer-link" target="_blank">Vimeo</a>
-    <a href="mailto:action@setsync.studio" class="footer-link">Email</a>
-  </div>
-  <div class="footer-note">© 2026 Wanjiru Kairu · Nairobi / International · action@setsync.studio</div>
-</footer>
-
-</body>
-</html>
+EARLY ACCESS · EVERYTHING FREE UNTIL PAID PLANS LAUNCH
+✓ NO CREDIT CARD
+✓ NO DEMO CALL
+✓ LOCK IN YOUR TIER NOW
+$300–500
+/ day · walkie talkie rental
+$200–500
+/ unit · cost to replace lost walkies
+$99
+/ month · SetSync Indie tier
+15+
+countries · global
+// THE PROBLEM
+Every film set runs on two broken tools.
+Walkie talkies
+Rental model unchanged since 1985. Lost on every shoot. Need batteries. Need rental contracts. Someone runs them to the truck at lunch to charge.
+$300–500/day rental + $200–500 per lost unit
+Paper call sheets
+Stale before the day starts. Reprinted six times when the schedule shifts. Lost in the wardrobe truck. The AD updates one. The crew works from another. Chaos compounds.
+No version control. No live updates. No record after wrap.
+// THE PRODUCT
+One app. Every department. Even offline.
+SetSync replaces both tools with a single live coordination layer. The AD updates once. Every crew member's phone updates instantly. Works without signal. Wraps cleanly into a 90-day archive.
+01 / Live
+Cast board
+Who's on set, who's in HMU, who's still in transit. Real-time. Department heads see it at a glance.
+02 / Pivot
+Smart day reorder
+When the lead is 45 minutes late, SetSync reorders the day in 30 seconds. Tags every department. Zero phone calls.
+03 / Voice
+Push-to-talk
+Every phone is a walkie. Channels per department. Director-only. AD broadcast. No hardware, no rental, no replacement.
+04 / Sheet
+Live call sheet
+One source of truth. Updates push to every crew member's phone. PDF export when you need it on paper.
+05 / Offline
+Works without signal
+Built for remote locations. Bush, basements, mountain shoots. Syncs when signal returns.
+06 / Cast
+Actor-side view
+Cast see only their scenes, lines, and call times. Private. Updates instantly. No emailing wrong-version sides.
+07 / Continuity
+Digital continuity
+Encrypted scene markup. Photos. EOD reports auto-generated. Continuity supervisor's work never lives on a personal phone.
+08 / Rolling
+Rolling Mode
+One tap silences the set. Notifications muted. Vibrations off. Only the AD or director can call CUT. Quiet on set, enforced.
+09 / Archive
+90-day archive
+Post-production needs continuity 6–8 weeks after wrap. Everything stays. One-tap PDF export. Then auto-deleted.
+// WHY NOW
+Pre-production has a hundred apps. The shoot day has none.
+StudioBinder, Movie Magic, SetHero — all pre-production. Plan the shoot, then the software stops mattering at 6 AM on day one.
+The shoot day is where money burns. Where actors are late. Where weather kills a setup. Where the AD calls twelve departments and waits.
+Walkie talkies haven't been rebuilt since 1985. Call sheets are still paper. Every other industry got live coordination tools twenty years ago. Film sets didn't.
+SetSync is the live coordination layer that should already exist.
+// BUILT FOR
+The people who run the set.
+01
+Assistant Directors
+Run the day. SetSync runs with you. Smart pivot, live call sheet, every department in sync.
+02
+Department Heads
+See your crew, your scenes, your call times. Get pinged when something changes. Stop guessing.
+03
+Line Producers & UPMs
+Real-time cost visibility. Wrap timing. Department burn rates. The dashboard you've been building in spreadsheets.
+04
+Cast & Crew
+Your call. Your scenes. Your sides. Your notifications. One app, the whole production, in your pocket.
+// START HERE
+Three ways to begin.
+FREE DURING EARLY ACCESS
+Build a call sheet.
+Build scenes manually and generate your call sheet. AI script reading coming soon. Publish once — syncs to every crew phone instantly.
+Call sheet builder
+→
+FREE DURING EARLY ACCESS
+Production schedule.
+Master schedule for the full shoot. See every day at a glance. Mark days shot or partial. AI analysis coming soon. Export as PDF or CSV.
+Production schedule
+→
+FREE DURING EARLY ACCESS
+The full app.
+Live cast board. Push-to-talk. Smart pivot. Continuity. Rolling mode. Cast sides. Archive. Everything, working, today.
+Open in browser
+→
+// ROADMAP
+What's shipping next.
+NOW · LIVE
+Core coordination
+Live cast board · Push-to-talk walkie system · Smart day pivot · Call sheet builder · Department readiness · Rolling mode · Continuity stills · Wrap reports · Crew discovery (Sync)
+COMING SOON · PAID
+AI layer
+Script upload → auto call sheet · AI schedule analysis · Smart conflict detection · AI wrap report summary · Continuity sheet OCR · Scene reordering suggestions
+LATER · PLATFORM
+Production network
+Verified crew credits · Production company accounts · Budget tracking · Crew hire & booking · Google Play & App Store · Stripe payments · Multi-production dashboard
+Early access users lock in their tier price before paid plans launch.
+LOCK IN EARLY ACCESS →
+// FOUNDER
+Wanjiru Kairu
+Founder · The Development Room · Nairobi
+20+ Years
+Every role from runner to director
+Runner, PA, art director, AD, writer, director. Across Kenya, East Africa, and international co-productions.
+Award-Winning
+Writer and producer — International Emmy Award-winning production
+Jongo Love, International Emmy Award-winning production 2013. Kalasha Award winner. Dakar Séries Festival. Writer for M-Net, Showmax, Citizen TV.
+In Development
+Feature in packaging
+Working with LA-based producer and director on a feature currently in active development.
+Est. 2021
+The Development Room
+Nairobi-based production company. Building the tools and stories the industry needs.
+"Twenty years on film sets. Every role from runner to director. I've been the AD calling twelve departments when the lead actor is forty-five minutes late. I built the tool I needed every single day."
+SetSync was built from inside the problem. Not by a product manager who watched a documentary about film sets, but by an AD who has actually charged walkies during lunch.
+Every feature exists because something on a real set was broken. Smart pivot exists because actors are always late. Rolling mode exists because phones go off mid-take. Cast sides exist because the wrong version always gets emailed.
+// OPEN ACCESS
+The shoot day just got easier.
+Free during early access. No credit card. No demo call. Open the app and use it on your next production.
+Open the app
+→
+S
+S
+SetSync
+The live coordination layer for film sets. Built in Nairobi. Used everywhere.
+PRODUCT
+Open app
+Call Sheet Builder
+Production Schedule
+Wrap Report
+Features
+COMPANY
+Founder
+Contact
+X / Twitter
+LEGAL
+Terms
+Privacy
+© 2026 The Development Room Ltd · Nairobi
+v0.9 / Early Access
