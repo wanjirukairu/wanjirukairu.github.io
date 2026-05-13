@@ -3,898 +3,353 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SetSync — Live On-Set Coordination</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='10' fill='%230A0A0A'/><text x='24' y='28' font-family='system-ui,sans-serif' font-weight='800' font-size='32' fill='%23FFFFFF' text-anchor='middle' letter-spacing='-0.06em'>S</text><text x='24' y='46' font-family='system-ui,sans-serif' font-weight='800' font-size='32' fill='%23E50914' text-anchor='middle' letter-spacing='-0.06em'>S</text></svg>">
-<meta name="description" content="The live coordination layer for film sets. Replaces walkie talkies and paper call sheets. Free during early access.">
-<meta property="og:title" content="SetSync — Live On-Set Coordination">
-<meta property="og:description" content="The live coordination layer for film sets. Replaces walkie talkies and paper call sheets.">
-<meta property="og:url" content="https://setsync.studio">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
+<title>Wanjiru Kairu — Writer · Director · Producer · Founder of SetSync</title>
+<meta name="description" content="Wanjiru Kairu is a Kenyan writer, director, producer, and founder of SetSync — the operating system for film production.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FFFFFF;
-    --ink: #0A0A0A;
-    --ink-2: #1A1A1A;
-    --ink-3: #2A2A2A;
-    --rule: #E5E5E5;
-    --rule-2: #F0F0F0;
-    --muted: #6B6B6B;
-    --muted-2: #999999;
-    --rec: #E50914;
-    --rec-bg: #FFF5F5;
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;
+  --border:#222222;--border2:#333333;
+  --text:#f0f0f0;--text2:#888888;--text3:#444444;
+  --red:#e50914;--red2:#ff1a24;--red3:#b00710;
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--border2)}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-feature-settings: 'ss01' on, 'ss02' on, 'cv11' on;
-    line-height: 1.45;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-  a { color: inherit; text-decoration: none; }
-  ::selection { background: var(--ink); color: var(--bg); }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.97);backdrop-filter:blur(10px)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-ss{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.04em;line-height:1}
+.nav-ss-w{color:var(--white)}
+.nav-ss-r{color:var(--red)}
+.nav-name{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);padding-left:10px;border-left:1px solid var(--border2)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color 0.2s}
+.nav-link:hover{color:var(--white)}
+.nav-cta{padding:6px 16px;border:1px solid var(--red);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);text-decoration:none;transition:all 0.2s}
+.nav-cta:hover{background:var(--red);color:var(--white)}
 
-  .mono {
-    font-family: 'Geist Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px 72px;position:relative;overflow:hidden;margin-top:56px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.3}
+.hero-glow{position:absolute;top:30%;left:20%;width:600px;height:400px;background:radial-gradient(ellipse,rgba(229,9,20,0.04) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
+.eyebrow-line{width:32px;height:1px;background:var(--red)}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,130px);line-height:0.92;letter-spacing:0.02em;color:var(--white);margin-bottom:12px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards}
+.hero-name span{color:var(--red)}
+.hero-roles{font-family:'Courier Prime',monospace;font-size:13px;color:var(--text2);letter-spacing:0.1em;margin-bottom:32px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards}
+.hero-bio{font-family:'Courier Prime',monospace;font-size:13px;color:var(--text2);line-height:1.85;max-width:560px;margin-bottom:44px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards}
+.hero-bio strong{color:var(--white);font-weight:400}
+.hero-links{display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards}
+.hero-link{padding:10px 20px;border:1px solid var(--border2);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:all 0.2s}
+.hero-link:hover{border-color:var(--white);color:var(--white)}
+.hero-link-primary{background:var(--red);color:var(--white);border-color:var(--red)}
+.hero-link-primary:hover{background:var(--red2);border-color:var(--red2);color:var(--white)}
 
-  /* TOPBAR */
-  .topbar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .topbar-inner {
-    max-width: 1320px; margin: 0 auto;
-    padding: 14px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .logo {
-    font-family: 'Geist Mono', monospace;
-    font-size: 14px; font-weight: 600;
-    letter-spacing: -0.01em;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .logo-mark-svg {
-    width: 26px; height: 26px;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-  .logo::after {
-    content: '';
-    width: 8px; height: 8px;
-    background: var(--rec);
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6);
-    animation: pulse 2s ease-out infinite;
-    margin-left: 4px;
-  }
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6); }
-    70%  { box-shadow: 0 0 0 8px rgba(229, 9, 20, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
-  }
-  .nav { display: flex; align-items: center; gap: 28px; }
-  .nav a { font-size: 13px; color: var(--ink-3); transition: color 0.15s; }
-  .nav a:hover { color: var(--ink); }
-  .nav .cta {
-    background: var(--ink); color: var(--bg);
-    padding: 8px 14px; border-radius: 6px;
-    font-size: 13px; font-weight: 500;
-    transition: background 0.15s;
-  }
-  .nav .cta:hover { background: var(--ink-3); color: var(--bg); }
-  @media (max-width: 768px) {
-    .nav a:not(.cta) { display: none; }
-    .topbar-inner { padding: 12px 20px; }
-  }
+/* SETSYNC */
+.setsync-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.strip-tag{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.strip-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,64px);letter-spacing:0.04em;color:var(--white);margin-bottom:14px;line-height:1}
+.strip-desc{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text2);line-height:1.85;margin-bottom:24px}
+.strip-link{display:inline-block;padding:11px 24px;background:var(--red);color:var(--white);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.2s}
+.strip-link:hover{background:var(--red2)}
+.strip-right{border-left:1px solid var(--border);padding-left:48px;padding-top:6px}
+.strip-features{display:flex;flex-direction:column;gap:16px}
+.strip-feature{display:flex;gap:12px;align-items:baseline}
+.strip-feature-dash{color:var(--red);flex-shrink:0;font-size:14px}
+.strip-feature-text{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text2);line-height:1.6}
 
-  /* LAYOUT */
-  section {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 96px 32px;
-    position: relative;
-  }
-  @media (max-width: 768px) { section { padding: 64px 20px; } }
+/* AWARDS */
+.awards-section{padding:72px 40px;border-bottom:1px solid var(--border)}
+.section-tag{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,56px);letter-spacing:0.04em;color:var(--white);margin-bottom:40px;line-height:1}
+.awards-list{border-top:1px solid var(--border)}
+.award-row{display:grid;grid-template-columns:80px 1fr auto;gap:20px;padding:16px 0;border-bottom:1px solid var(--border);align-items:baseline}
+.award-year{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--red);letter-spacing:0.06em}
+.award-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--text);line-height:1.6}
+.award-title span{color:var(--text2);font-style:italic}
+.award-role{font-size:10px;color:var(--text3);letter-spacing:0.1em;text-align:right;white-space:nowrap}
 
-  .label-row {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 32px;
-  }
-  .label-row::before {
-    content: ''; width: 24px; height: 1px; background: var(--ink);
-  }
+/* CREDITS */
+.credits-section{padding:72px 40px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.credits-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}
+.credits-col-title{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.credit-item{padding:12px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:baseline}
+.credit-item:last-child{border-bottom:none}
+.credit-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--white);font-weight:700}
+.credit-role{font-family:'Courier Prime',monospace;font-size:11px;color:var(--text2)}
+.credit-platform{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-align:right;line-height:1.6}
 
-  /* HERO */
-  .hero {
-    padding-top: 180px;
-    padding-bottom: 96px;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-  }
-  .hero h1 {
-    font-size: clamp(44px, 7.5vw, 104px);
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 0.95;
-    max-width: 14ch;
-  }
-  .hero h1 strong { font-weight: 800; }
-  .hero h1 .strike { color: var(--muted-2); position: relative; }
-  .hero h1 .strike::after {
-    content: ''; position: absolute;
-    left: -2%; right: -2%; top: 52%;
-    height: 6px; background: var(--rec);
-    transform: rotate(-1.5deg);
-  }
-  .hero-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    margin-top: 64px;
-    padding-top: 32px;
-    border-top: 1px solid var(--rule);
-  }
-  .hero-meta-block .mono { display: block; margin-bottom: 8px; }
-  .hero-meta-block p { font-size: 16px; max-width: 38ch; color: var(--ink-3); }
-  .hero-cta-row {
-    display: flex; gap: 12px; flex-wrap: wrap;
-    margin-top: 48px;
-  }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 22px;
-    font-size: 14px; font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.15s;
-    border: 1px solid var(--ink);
-  }
-  .btn-primary { background: var(--ink); color: var(--bg); }
-  .btn-primary:hover { background: var(--ink-3); }
-  .btn-secondary { background: var(--bg); color: var(--ink); }
-  .btn-secondary:hover { background: var(--ink); color: var(--bg); }
-  .btn-arrow { transition: transform 0.15s; }
-  .btn:hover .btn-arrow { transform: translateX(2px); }
-  @media (max-width: 768px) {
-    .hero { padding-top: 120px; padding-bottom: 64px; }
-    .hero-meta { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; }
-  }
+/* AUDIO SECTION */
+.audio-section{padding:72px 40px;border-bottom:1px solid var(--border)}
+.audio-list{border-top:1px solid var(--border);margin-top:40px}
+.audio-row{display:grid;grid-template-columns:1fr auto auto;gap:20px;padding:14px 0;border-bottom:1px solid var(--border);align-items:baseline}
+.audio-title{font-family:'Courier Prime',monospace;font-size:12px;color:var(--white);font-weight:700}
+.audio-role{font-family:'Courier Prime',monospace;font-size:11px;color:var(--text2)}
+.audio-platform{font-size:10px;color:var(--text3);letter-spacing:0.06em;text-align:right}
+.audio-year{font-size:10px;color:var(--text3);text-align:right;white-space:nowrap}
 
-  /* STATS */
-  .stats {
-    border-bottom: 1px solid var(--rule);
-    padding: 32px;
-    max-width: 1320px;
-    margin: 0 auto;
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-  }
-  .stat-num {
-    font-family: 'Geist Mono', monospace;
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-num .red { color: var(--rec); }
-  .stat-label { font-size: 13px; color: var(--muted); }
-  @media (max-width: 768px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  }
+/* FELLOWSHIPS */
+.fellows-section{padding:72px 40px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.fellows-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);margin-top:40px;border:1px solid var(--border)}
+.fellow-card{padding:28px;background:var(--bg2)}
+.fellow-year{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--red);margin-bottom:6px}
+.fellow-name{font-family:'Courier Prime',monospace;font-size:13px;color:var(--white);font-weight:700;margin-bottom:4px}
+.fellow-org{font-size:10px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
 
-  /* PROBLEM */
-  .problem h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-    max-width: 22ch;
-    margin-bottom: 64px;
-  }
-  .problem-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-  }
-  .problem-cell {
-    padding: 40px 32px 40px 0;
-    border-right: 1px solid var(--rule);
-  }
-  .problem-cell:last-child { border-right: 0; padding-left: 32px; padding-right: 0; }
-  .problem-cell h3 {
-    font-size: 22px; font-weight: 600;
-    margin-bottom: 16px;
-    letter-spacing: -0.015em;
-  }
-  .problem-cell p { color: var(--ink-3); font-size: 16px; max-width: 42ch; }
-  .problem-cell .cost {
-    margin-top: 24px;
-    font-family: 'Geist Mono', monospace;
-    font-size: 13px;
-    color: var(--rec);
-  }
-  @media (max-width: 768px) {
-    .problem-grid { grid-template-columns: 1fr; }
-    .problem-cell { border-right: 0; border-bottom: 1px solid var(--rule); padding: 32px 0; }
-    .problem-cell:last-child { border-bottom: 0; padding: 32px 0; }
-  }
+/* FOOTER */
+footer{padding:40px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{display:flex;align-items:center;gap:8px}
+.footer-ss{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:0.04em}
+.footer-ss-w{color:var(--white)}
+.footer-ss-r{color:var(--red)}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-link{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color 0.2s}
+.footer-link:hover{color:var(--white)}
+.footer-note{font-size:10px;color:var(--text3);width:100%}
 
-  /* SOLUTION */
-  .solution {
-    background: var(--ink);
-    color: var(--bg);
-    padding: 96px 32px;
-  }
-  .solution-inner {
-    max-width: 1320px;
-    margin: 0 auto;
-  }
-  .solution h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-    max-width: 18ch;
-    margin-bottom: 16px;
-  }
-  .solution-inner > p {
-    font-size: 18px;
-    color: rgba(255,255,255,0.7);
-    max-width: 56ch;
-    margin-bottom: 64px;
-  }
-  .solution .label-row::before { background: var(--bg); }
-  .solution .mono { color: rgba(255,255,255,0.6); }
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .feature {
-    background: var(--ink);
-    padding: 32px 28px;
-    transition: background 0.2s;
-  }
-  .feature:hover { background: var(--ink-2); }
-  .feature-num {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 24px;
-  }
-  .feature h3 {
-    font-size: 18px; font-weight: 600;
-    margin-bottom: 12px;
-    letter-spacing: -0.015em;
-  }
-  .feature p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.55;
-  }
-  @media (max-width: 1024px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .feature-grid { grid-template-columns: 1fr; } }
-
-  /* ANTI-PITCH */
-  .anti { border-bottom: 1px solid var(--rule); }
-  .anti-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .anti h2 {
-    font-size: clamp(32px, 4.5vw, 52px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-  }
-  .anti h2 .strike { color: var(--muted-2); position: relative; }
-  .anti h2 .strike::after {
-    content: ''; position: absolute;
-    left: -2%; right: -2%; top: 52%;
-    height: 4px; background: var(--rec);
-  }
-  .anti-body p {
-    font-size: 17px;
-    color: var(--ink-3);
-    margin-bottom: 20px;
-    max-width: 50ch;
-  }
-  .anti-body p strong { color: var(--ink); font-weight: 600; }
-  @media (max-width: 768px) {
-    .anti-grid { grid-template-columns: 1fr; gap: 32px; }
-  }
-
-  /* WHO */
-  .who h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-    max-width: 24ch;
-    margin-bottom: 64px;
-  }
-  .who-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-  }
-  .who-cell {
-    background: var(--bg);
-    padding: 32px 24px;
-  }
-  .who-cell-num {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-  .who-cell h3 {
-    font-size: 17px; font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.015em;
-  }
-  .who-cell p { font-size: 14px; color: var(--ink-3); line-height: 1.55; }
-  @media (max-width: 768px) {
-    .who-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* TWO WAYS */
-  .ways {
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .ways h2 {
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-    margin-bottom: 64px;
-  }
-  .ways-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-  .way {
-    border: 1px solid var(--ink);
-    padding: 40px;
-    transition: background 0.15s, color 0.15s;
-    display: flex; flex-direction: column;
-  }
-  .way:hover { background: var(--ink); color: var(--bg); }
-  .way:hover .way-meta { color: rgba(255,255,255,0.6); }
-  .way:hover .way-body { color: rgba(255,255,255,0.75); }
-  .way:hover .way-arrow { transform: translateX(4px); }
-  .way-eyebrow {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .way h3 {
-    font-size: 26px; font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    margin-bottom: 16px;
-  }
-  .way-body { font-size: 15px; color: var(--ink-3); flex: 1; line-height: 1.55; }
-  .way-meta {
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 32px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .way-arrow { transition: transform 0.15s; font-size: 18px; }
-  @media (max-width: 768px) {
-    .ways-grid { grid-template-columns: 1fr; }
-    .way { padding: 28px; }
-  }
-
-  /* FOUNDER */
-  .founder { padding-top: 96px; padding-bottom: 96px; }
-  .founder-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 96px;
-    align-items: start;
-  }
-  .founder-name {
-    font-size: 28px; font-weight: 600;
-    letter-spacing: -0.025em;
-    margin-bottom: 4px;
-  }
-  .founder-role {
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-  .founder-quote {
-    font-size: clamp(22px, 2.4vw, 28px);
-    font-weight: 500;
-    line-height: 1.35;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-    border-left: 2px solid var(--rec);
-    padding-left: 24px;
-    margin-bottom: 48px;
-  }
-  .creds {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-    background: var(--rule); border: 1px solid var(--rule);
-  }
-  .cred {
-    background: var(--bg);
-    padding: 24px;
-  }
-  .cred-eyebrow {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: var(--rec);
-    margin-bottom: 12px;
-  }
-  .cred h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
-  .cred p { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
-  .founder-body p {
-    font-size: 16px;
-    color: var(--ink-3);
-    max-width: 50ch;
-    margin-bottom: 20px;
-  }
-  @media (max-width: 768px) {
-    .founder-grid { grid-template-columns: 1fr; gap: 32px; }
-    .creds { grid-template-columns: 1fr; }
-  }
-
-  /* CTA BAND */
-  .cta-band {
-    background: var(--ink);
-    color: var(--bg);
-    padding: 120px 32px;
-  }
-  .cta-inner {
-    max-width: 1320px; margin: 0 auto;
-  }
-  .cta-band h2 {
-    font-size: clamp(40px, 6vw, 80px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 0.98;
-    margin-bottom: 32px;
-    max-width: 18ch;
-  }
-  .cta-band p {
-    font-size: 18px;
-    color: rgba(255,255,255,0.7);
-    max-width: 50ch;
-    margin-bottom: 48px;
-  }
-  .cta-band .btn {
-    background: var(--bg); color: var(--ink);
-    border-color: var(--bg);
-    padding: 18px 28px;
-    font-size: 15px;
-  }
-  .cta-band .btn:hover { background: var(--rec); color: var(--bg); border-color: var(--rec); }
-  .cta-band .label-row::before { background: var(--bg); }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--rule);
-    padding: 56px 32px 32px;
-    max-width: 1320px;
-    margin: 0 auto;
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 48px;
-  }
-  .footer-brand .logo { margin-bottom: 12px; font-size: 14px; }
-  .footer-brand p { font-size: 13px; color: var(--muted); max-width: 32ch; }
-  .footer-col h5 {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-  .footer-col a {
-    display: block;
-    font-size: 13px;
-    color: var(--ink-3);
-    margin-bottom: 8px;
-    transition: color 0.15s;
-  }
-  .footer-col a:hover { color: var(--ink); }
-  .footer-bottom {
-    padding-top: 24px;
-    border-top: 1px solid var(--rule);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .footer-bottom p, .footer-bottom a {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  @media (max-width: 768px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-  }
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero{padding:0 20px 60px}
+  .setsync-strip{grid-template-columns:1fr;padding:32px 20px;gap:28px}
+  .strip-right{border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:28px}
+  .awards-section,.credits-section,.audio-section,.fellows-section{padding:48px 20px}
+  .award-row{grid-template-columns:56px 1fr}
+  .award-role{display:none}
+  .credits-grid{grid-template-columns:1fr}
+  .fellows-grid{grid-template-columns:1fr}
+  .audio-row{grid-template-columns:1fr auto}
+  .audio-platform{display:none}
+  footer{padding:28px 20px}
+}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="logo"><svg class="logo-mark-svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="SetSync"><rect width="48" height="48" rx="10" fill="#0A0A0A"/><text x="24" y="28" font-family="'Geist', system-ui, sans-serif" font-weight="800" font-size="32" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.06em">S</text><text x="24" y="46" font-family="'Geist', system-ui, sans-serif" font-weight="800" font-size="32" fill="#E50914" text-anchor="middle" letter-spacing="-0.06em">S</text></svg><span>SetSync</span></a>
-    <nav class="nav">
-      <a href="#problem">Problem</a>
-      <a href="#solution">Product</a>
-      <a href="/callsheet">Call Sheet</a>
-      <a href="/schedule">Schedule</a>
-      <a href="/wrap">Wrap Report</a>
-      <a href="#founder">Founder</a>
-      <a href="https://code-friend-maker-41.lovable.app" target="_blank" class="cta">Open app →</a>
-    </nav>
+<nav>
+  <div class="nav-logo">
+    <div class="nav-ss"><span class="nav-ss-w">S</span><span class="nav-ss-r">S</span></div>
+    <div class="nav-name">Wanjiru Kairu</div>
   </div>
-</header>
+  <div class="nav-links">
+    <a href="#setsync" class="nav-link">SetSync</a>
+    <a href="#awards" class="nav-link">Awards</a>
+    <a href="#credits" class="nav-link">Credits</a>
+    <a href="https://www.imdb.com/name/nm2620441/" class="nav-link" target="_blank">IMDB</a>
+    <a href="https://www.linkedin.com/in/wanjirukairu/" class="nav-link" target="_blank">LinkedIn</a>
+    <a href="https://setsync.studio" class="nav-cta" target="_blank">SetSync →</a>
+  </div>
+</nav>
 
-<section class="hero">
-  <div class="label-row">
-    <span class="mono">SetSync / v0.9 / Early Access · Free until paid plans launch</span>
-  </div>
-  <h1>
-    <span class="strike">Walkie talkies.</span><br>
-    <span class="strike">Paper call sheets.</span><br>
-    <strong>One live app.</strong>
-  </h1>
-
-  <div class="hero-meta">
-    <div class="hero-meta-block">
-      <span class="mono">// What it is</span>
-      <p>The live coordination layer for film sets. Built by an AD with twenty years on set, for the people who actually run the day.</p>
-    </div>
-    <div class="hero-meta-block">
-      <span class="mono">// Who it's for</span>
-      <p>1st ADs, line producers, department heads, cast and crew. From student films to studio productions, globally.</p>
-    </div>
-  </div>
-
-  <div class="hero-cta-row">
-    <a href="https://code-friend-maker-41.lovable.app" target="_blank" class="btn btn-primary">
-      Open the app <span class="btn-arrow">→</span>
-    </a>
-    <a href="/callsheet" class="btn btn-secondary">
-      Build a call sheet <span class="btn-arrow">→</span>
-    </a>
-    <a href="/schedule" class="btn btn-secondary">
-      Production schedule <span class="btn-arrow">→</span>
-    </a>
-  </div>
-</section>
-
-<!-- EARLY ACCESS BANNER -->
-<div style="background:#0a0a0a;border-top:1px solid #222;border-bottom:1px solid #222;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
-  <div style="display:flex;align-items:center;gap:16px">
-    <div style="width:8px;height:8px;border-radius:50%;background:#00ff88;animation:pulse 2s infinite"></div>
-    <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#888;letter-spacing:0.1em;text-transform:uppercase">Early Access · Everything free until paid plans launch</span>
-  </div>
-  <div style="display:flex;gap:24px;font-family:'Geist Mono',monospace;font-size:11px;color:#444;letter-spacing:0.08em;text-transform:uppercase">
-    <span>✓ No credit card</span>
-    <span>✓ No demo call</span>
-    <span>✓ Lock in your tier now</span>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow"><div class="eyebrow-line"></div>Nairobi · International</div>
+  <h1 class="hero-name">Wanjiru<br><span>Kairu</span></h1>
+  <div class="hero-roles">Writer · Director · Producer · Founder</div>
+  <p class="hero-bio">
+    Kenyan writer, director, and producer working across film, television, animation, and audio.
+    Writer and line producer of Jongo Love, the International Emmy Award-winning audio drama.
+    Multi-award recipient with credits for M-Net, Showmax, Citizen TV, and LA-based production companies
+    spanning over two decades.<br><br>
+    Founder of SetSync — the first software built to operate inside the film shoot day.
+  </p>
+  <div class="hero-links">
+    <a href="https://setsync.studio" class="hero-link hero-link-primary" target="_blank">SetSync App</a>
+    <a href="https://www.imdb.com/name/nm2620441/" class="hero-link" target="_blank">IMDB Credits</a>
+    <a href="https://www.linkedin.com/in/wanjirukairu/" class="hero-link" target="_blank">LinkedIn</a>
+    <a href="https://vimeo.com/wanjiru" class="hero-link" target="_blank">Vimeo Reel</a>
   </div>
 </div>
 
-<div class="stats">
-  <div class="stats-grid">
-    <div>
-      <div class="stat-num">$300<span class="red">–</span>500</div>
-      <div class="stat-label">/ day · walkie talkie rental</div>
-    </div>
-    <div>
-      <div class="stat-num">$200<span class="red">–</span>500</div>
-      <div class="stat-label">/ unit · cost to replace lost walkies</div>
-    </div>
-    <div>
-      <div class="stat-num">$99</div>
-      <div class="stat-label">/ month · SetSync Indie tier</div>
-    </div>
-    <div>
-      <div class="stat-num">15+</div>
-      <div class="stat-label">countries · global</div>
+<!-- SETSYNC -->
+<div class="setsync-strip" id="setsync">
+  <div class="strip-left">
+    <div class="strip-tag">Currently Building</div>
+    <div class="strip-title">SetSync</div>
+    <p class="strip-desc">
+      The first software designed to operate inside the film shoot day.
+      Every production tool stops at crew call. SetSync doesn't.
+      Live coordination, real-time scene pivots, AI call sheet generation,
+      and an auto wrap report that writes itself at picture wrap — zero manual entry.
+    </p>
+    <a href="https://setsync.studio" class="strip-link" target="_blank">Visit SetSync →</a>
+  </div>
+  <div class="strip-right">
+    <div class="strip-features">
+      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">SetSync Script — free browser-based screenwriting tool, exports to PDF and Final Draft</span></div>
+      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">AI call sheet generator — reads scripts, extracts scenes, cast, locations automatically</span></div>
+      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">Live on-set coordination — replaces walkie-talkies on every crew member's phone</span></div>
+      <div class="strip-feature"><span class="strip-feature-dash">—</span><span class="strip-feature-text">Auto wrap report — full post-production handoff generated from live shoot data</span></div>
     </div>
   </div>
 </div>
 
-<section class="problem" id="problem">
-  <div class="label-row"><span class="mono">// The Problem</span></div>
-  <h2>Every film set runs on two broken tools.</h2>
-  <div class="problem-grid">
-    <div class="problem-cell">
-      <h3>Walkie talkies</h3>
-      <p>Rental model unchanged since 1985. Lost on every shoot. Need batteries. Need rental contracts. Someone runs them to the truck at lunch to charge.</p>
-      <div class="cost">$300–500/day rental + $200–500 per lost unit</div>
+<!-- AWARDS -->
+<div class="awards-section" id="awards">
+  <div class="section-tag">Recognition</div>
+  <div class="section-title">Awards &<br>Nominations</div>
+  <div class="awards-list">
+    <div class="award-row">
+      <div class="award-year">2025</div>
+      <div class="award-title">Digital Revolution Awards — Global Winner, Not-For-Profit Digital Project of the Year<br><span>The Mysteries of Jabali & Sauti</span></div>
+      <div class="award-role">Writer</div>
     </div>
-    <div class="problem-cell">
-      <h3>Paper call sheets</h3>
-      <p>Stale before the day starts. Reprinted six times when the schedule shifts. Lost in the wardrobe truck. The AD updates one. The crew works from another. Chaos compounds.</p>
-      <div class="cost">No version control. No live updates. No record after wrap.</div>
+    <div class="award-row">
+      <div class="award-year">2024</div>
+      <div class="award-title">Dakar Séries Festival — Best Short Series · Best Actress · Best Editing<br><span>Big Girl, Small World</span></div>
+      <div class="award-role">Writer</div>
     </div>
-  </div>
-</section>
-
-<div class="solution" id="solution">
-  <div class="solution-inner">
-    <div class="label-row"><span class="mono">// The Product</span></div>
-    <h2>One app. Every department. Even offline.</h2>
-    <p>SetSync replaces both tools with a single live coordination layer. The AD updates once. Every crew member's phone updates instantly. Works without signal. Wraps cleanly into a 90-day archive.</p>
-
-    <div class="feature-grid">
-      <div class="feature">
-        <div class="feature-num">01 / Live</div>
-        <h3>Cast board</h3>
-        <p>Who's on set, who's in HMU, who's still in transit. Real-time. Department heads see it at a glance.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">02 / Pivot</div>
-        <h3>Smart day reorder</h3>
-        <p>When the lead is 45 minutes late, SetSync reorders the day in 30 seconds. Tags every department. Zero phone calls.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">03 / Voice</div>
-        <h3>Push-to-talk</h3>
-        <p>Every phone is a walkie. Channels per department. Director-only. AD broadcast. No hardware, no rental, no replacement.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">04 / Sheet</div>
-        <h3>Live call sheet</h3>
-        <p>One source of truth. Updates push to every crew member's phone. PDF export when you need it on paper.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">05 / Offline</div>
-        <h3>Works without signal</h3>
-        <p>Built for remote locations. Bush, basements, mountain shoots. Syncs when signal returns.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">06 / Cast</div>
-        <h3>Actor-side view</h3>
-        <p>Cast see only their scenes, lines, and call times. Private. Updates instantly. No emailing wrong-version sides.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">07 / Continuity</div>
-        <h3>Digital continuity</h3>
-        <p>Encrypted scene markup. Photos. EOD reports auto-generated. Continuity supervisor's work never lives on a personal phone.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">08 / Rolling</div>
-        <h3>Rolling Mode</h3>
-        <p>One tap silences the set. Notifications muted. Vibrations off. Only the AD or director can call CUT. Quiet on set, enforced.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">09 / Archive</div>
-        <h3>90-day archive</h3>
-        <p>Post-production needs continuity 6–8 weeks after wrap. Everything stays. One-tap PDF export. Then auto-deleted.</p>
-      </div>
+    <div class="award-row">
+      <div class="award-year">2023</div>
+      <div class="award-title">Kalasha Award — Best Student Feature Film<br><span>Cheza</span></div>
+      <div class="award-role">Script Editor / Dev Executive</div>
+    </div>
+    <div class="award-row">
+      <div class="award-year">2020</div>
+      <div class="award-title">Africa Magic Viewers' Choice Award<br><span>Promises</span></div>
+      <div class="award-role">Script Editor / Dev Executive</div>
+    </div>
+    <div class="award-row">
+      <div class="award-year">2013</div>
+      <div class="award-title">International Emmy Award — Jongo Love<br><span>Writer & Line Producer · Audio Drama · Awarded to Well Told Story</span></div>
+      <div class="award-role">Writer & Line Producer</div>
+    </div>
+    <div class="award-row">
+      <div class="award-year">2010</div>
+      <div class="award-title">Kalasha Award<br><span>Makutano Junction</span></div>
+      <div class="award-role">Writer</div>
+    </div>
+    <div class="award-row">
+      <div class="award-year">2009</div>
+      <div class="award-title">Kalasha Award<br><span>Tabasamu</span></div>
+      <div class="award-role">Writer</div>
+    </div>
+    <div class="award-row">
+      <div class="award-year">2009–10</div>
+      <div class="award-title">Nominated — AMAA · Kalasha · Durban IFF · Images That Matter<br><span>Weakness</span></div>
+      <div class="award-role">Director</div>
     </div>
   </div>
 </div>
 
-<section class="anti">
-  <div class="label-row"><span class="mono">// Why now</span></div>
-  <div class="anti-grid">
-    <h2>
-      <span class="strike">Pre-production has a hundred apps.</span><br>
-      The shoot day has none.
-    </h2>
-    <div class="anti-body">
-      <p><strong>StudioBinder, Movie Magic, SetHero —</strong> all pre-production. Plan the shoot, then the software stops mattering at 6 AM on day one.</p>
-      <p>The shoot day is where money burns. Where actors are late. Where weather kills a setup. Where the AD calls twelve departments and waits.</p>
-      <p>Walkie talkies haven't been rebuilt since 1985. Call sheets are still paper. Every other industry got live coordination tools twenty years ago. Film sets didn't.</p>
-      <p><strong>SetSync is the live coordination layer that should already exist.</strong></p>
+<!-- CREDITS -->
+<div class="credits-section" id="credits">
+  <div class="section-tag">Selected Credits</div>
+  <div class="section-title">Film &<br>Television</div>
+  <div class="credits-grid">
+    <div class="credits-col">
+      <div class="credits-col-title">Feature Films</div>
+      <div class="credit-item"><div><div class="credit-title">Killer Set</div><div class="credit-role">Writer · Director · Producer</div></div><div class="credit-platform">The Development Room<br>2026</div></div>
+      <div class="credit-item"><div><div class="credit-title">Tethered</div><div class="credit-role">Writer</div></div><div class="credit-platform">Harding Entertainment<br>2024–25</div></div>
+      <div class="credit-item"><div><div class="credit-title">Hashtag Cancelled</div><div class="credit-role">Writer</div></div><div class="credit-platform">PMF Media / Harding<br>2022–24</div></div>
+      <div class="credit-item"><div><div class="credit-title">Cheza</div><div class="credit-role">Script Editor / Dev Executive</div></div><div class="credit-platform">M-Net / Showmax<br>2021</div></div>
+      <div class="credit-item"><div><div class="credit-title">Promises</div><div class="credit-role">Script Editor / Dev Executive</div></div><div class="credit-platform">M-Net / Showmax<br>2019</div></div>
+      <div class="credit-item"><div><div class="credit-title">Last Round + 9 others</div><div class="credit-role">Writer</div></div><div class="credit-platform">M-Net / Showmax<br>2013–15</div></div>
+    </div>
+    <div class="credits-col">
+      <div class="credits-col-title">Television Series</div>
+      <div class="credit-item"><div><div class="credit-title">Big Girl, Small World</div><div class="credit-role">Writer</div></div><div class="credit-platform">Showmax<br>2023–24</div></div>
+      <div class="credit-item"><div><div class="credit-title">Makutano Junction</div><div class="credit-role">Writer & Director</div></div><div class="credit-platform">Citizen TV / Mediae<br>2007–15</div></div>
+      <div class="credit-item"><div><div class="credit-title">Love Makanika</div><div class="credit-role">Head Writer</div></div><div class="credit-platform">Pearl Magic / M-Net<br>2016</div></div>
+      <div class="credit-item"><div><div class="credit-title">Pepeta</div><div class="credit-role">Story Developer & Writer</div></div><div class="credit-platform">Showmax<br>2021</div></div>
+      <div class="credit-item"><div><div class="credit-title">Sand Storm</div><div class="credit-role">Script Editor & Writer</div></div><div class="credit-platform">FilmAid / UNHCR<br>2019</div></div>
+      <div class="credit-item"><div><div class="credit-title">Kona</div><div class="credit-role">Writer & Story Developer</div></div><div class="credit-platform">M-Net / Maisha Magic<br>2012–13</div></div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="who">
-  <div class="label-row"><span class="mono">// Built for</span></div>
-  <h2>The people who run the set.</h2>
-  <div class="who-grid">
-    <div class="who-cell">
-      <div class="who-cell-num">01</div>
-      <h3>Assistant Directors</h3>
-      <p>Run the day. SetSync runs with you. Smart pivot, live call sheet, every department in sync.</p>
+<!-- ANIMATION & AUDIO -->
+<div class="audio-section">
+  <div class="section-tag">Animation & Audio</div>
+  <div class="section-title">Animation,<br>Radio & Audio</div>
+  <div class="audio-list">
+    <div class="audio-row">
+      <div><div class="audio-title">The Mysteries of Jabali & Sauti</div><div class="audio-role">Writer · Animation</div></div>
+      <div class="audio-platform">NTV Kenya / Akili Kids</div>
+      <div class="audio-year">2024</div>
     </div>
-    <div class="who-cell">
-      <div class="who-cell-num">02</div>
-      <h3>Department Heads</h3>
-      <p>See your crew, your scenes, your call times. Get pinged when something changes. Stop guessing.</p>
+    <div class="audio-row">
+      <div><div class="audio-title">Xaqdhwor</div><div class="audio-role">Writer · Radio Drama</div></div>
+      <div class="audio-platform">Somalian Radio</div>
+      <div class="audio-year">2023–24</div>
     </div>
-    <div class="who-cell">
-      <div class="who-cell-num">03</div>
-      <h3>Line Producers & UPMs</h3>
-      <p>Real-time cost visibility. Wrap timing. Department burn rates. The dashboard you've been building in spreadsheets.</p>
+    <div class="audio-row">
+      <div><div class="audio-title">My Better World</div><div class="audio-role">Writer · Animation</div></div>
+      <div class="audio-platform">Citizen TV</div>
+      <div class="audio-year">2017</div>
     </div>
-    <div class="who-cell">
-      <div class="who-cell-num">04</div>
-      <h3>Cast & Crew</h3>
-      <p>Your call. Your scenes. Your sides. Your notifications. One app, the whole production, in your pocket.</p>
+    <div class="audio-row">
+      <div><div class="audio-title">Talodoon</div><div class="audio-role">Writer · Radio Drama</div></div>
+      <div class="audio-platform">Somalian Radio</div>
+      <div class="audio-year">2019</div>
+    </div>
+    <div class="audio-row">
+      <div><div class="audio-title">Siasa Mtaani</div><div class="audio-role">Writer · Swahili Radio Drama</div></div>
+      <div class="audio-platform">Radio</div>
+      <div class="audio-year">2013</div>
+    </div>
+    <div class="audio-row">
+      <div><div class="audio-title">Jongo Love</div><div class="audio-role">Writer & Producer · Audio Drama · International Emmy Award</div></div>
+      <div class="audio-platform">Well Told Story</div>
+      <div class="audio-year">2011–12</div>
+    </div>
+    <div class="audio-row">
+      <div><div class="audio-title">Chakrouok</div><div class="audio-role">Writer · Luo Radio Drama</div></div>
+      <div class="audio-platform">Radio</div>
+      <div class="audio-year">2010–11</div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="ways">
-  <div class="label-row"><span class="mono">// Start here</span></div>
-  <h2>Three ways to begin.</h2>
-  <div class="ways-grid">
-    <a href="/callsheet" class="way">
-      <div class="way-eyebrow">Free during early access</div>
-      <h3>Build a call sheet.</h3>
-      <p class="way-body">Build scenes manually and generate your call sheet. AI script reading coming soon. Publish once — syncs to every crew phone instantly.</p>
-      <div class="way-meta">
-        <span>Call sheet builder</span>
-        <span class="way-arrow">→</span>
-      </div>
-    </a>
-    <a href="/schedule" class="way">
-      <div class="way-eyebrow">Free during early access</div>
-      <h3>Production schedule.</h3>
-      <p class="way-body">Master schedule for the full shoot. See every day at a glance. Mark days shot or partial. AI analysis coming soon. Export as PDF or CSV.</p>
-      <div class="way-meta">
-        <span>Production schedule</span>
-        <span class="way-arrow">→</span>
-      </div>
-    </a>
-    <a href="https://code-friend-maker-41.lovable.app" target="_blank" class="way">
-      <div class="way-eyebrow">Free during early access</div>
-      <h3>The full app.</h3>
-      <p class="way-body">Live cast board. Push-to-talk. Smart pivot. Continuity. Rolling mode. Cast sides. Archive. Everything, working, today.</p>
-      <div class="way-meta">
-        <span>Open in browser</span>
-        <span class="way-arrow">→</span>
-      </div>
-    </a>
-  </div>
-</section>
-
-<section style="padding:72px 32px;border-bottom:1px solid #e5e5e5;background:#fafafa">
-  <div class="label-row"><span class="mono">// Roadmap</span></div>
-  <h2 style="font-size:clamp(28px,4vw,48px);font-weight:600;letter-spacing:-0.03em;line-height:1.1;margin-bottom:40px">What's shipping next.</h2>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5">
-    <div style="background:#fff;padding:28px">
-      <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#e50914;margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase">Now · Live</div>
-      <h4 style="font-size:16px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em">Core coordination</h4>
-      <div style="font-size:13px;color:#6b6b6b;line-height:1.7">Live cast board · Push-to-talk walkie system · Smart day pivot · Call sheet builder · Department readiness · Rolling mode · Continuity stills · Wrap reports · Crew discovery (Sync)</div>
+<!-- FELLOWSHIPS -->
+<div class="fellows-section">
+  <div class="section-tag">Training & Fellowships</div>
+  <div class="section-title">Labs &<br>Fellowships</div>
+  <div class="fellows-grid">
+    <div class="fellow-card">
+      <div class="fellow-year">2024</div>
+      <div class="fellow-name">AuthenticA Series Lab</div>
+      <div class="fellow-org">Realness Institute</div>
     </div>
-    <div style="background:#fff;padding:28px">
-      <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#6b6b6b;margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase">Coming Soon · Paid</div>
-      <h4 style="font-size:16px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em">AI layer</h4>
-      <div style="font-size:13px;color:#6b6b6b;line-height:1.7">Script upload → auto call sheet · AI schedule analysis · Smart conflict detection · AI wrap report summary · Continuity sheet OCR · Scene reordering suggestions</div>
+    <div class="fellow-card">
+      <div class="fellow-year">2022</div>
+      <div class="fellow-name">International Writers Lab Fellow</div>
+      <div class="fellow-org">IWL</div>
     </div>
-    <div style="background:#fff;padding:28px">
-      <div style="font-family:'Geist Mono',monospace;font-size:10px;color:#6b6b6b;margin-bottom:12px;letter-spacing:0.1em;text-transform:uppercase">Later · Platform</div>
-      <h4 style="font-size:16px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em">Production network</h4>
-      <div style="font-size:13px;color:#6b6b6b;line-height:1.7">Verified crew credits · Production company accounts · Budget tracking · Crew hire & booking · Google Play & App Store · Stripe payments · Multi-production dashboard</div>
+    <div class="fellow-card">
+      <div class="fellow-year">2007</div>
+      <div class="fellow-name">Maisha Film Lab</div>
+      <div class="fellow-org">Kampala · Mira Nair</div>
     </div>
-  </div>
-  <div style="margin-top:24px;padding:20px 24px;background:#fff;border:1px solid #e5e5e5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-    <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#6b6b6b;letter-spacing:0.06em">Early access users lock in their tier price before paid plans launch.</span>
-    <a href="https://code-friend-maker-41.lovable.app" target="_blank" style="font-family:'Geist Mono',monospace;font-size:11px;color:#e50914;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none">Lock in early access →</a>
-  </div>
-</section>
-
-<section class="founder" id="founder">
-  <div class="label-row"><span class="mono">// Founder</span></div>
-  <div class="founder-grid">
-    <div>
-      <div class="founder-name">Wanjiru Kairu</div>
-      <div class="founder-role">Founder · The Development Room · Nairobi</div>
-      <div class="creds">
-        <div class="cred">
-          <div class="cred-eyebrow">20+ Years</div>
-          <h4>Every role from runner to director</h4>
-          <p>Runner, PA, art director, AD, writer, director. Across Kenya, East Africa, and international co-productions.</p>
-        </div>
-        <div class="cred">
-          <div class="cred-eyebrow">Award-Winning</div>
-          <h4>Writer and producer — International Emmy Award-winning production</h4>
-          <p>Jongo Love, International Emmy Award-winning production 2013. Kalasha Award winner. Dakar Séries Festival. Writer for M-Net, Showmax, Citizen TV.</p>
-        </div>
-        <div class="cred">
-          <div class="cred-eyebrow">In Development</div>
-          <h4>Feature in packaging</h4>
-          <p>Working with LA-based producer and director on a feature currently in active development.</p>
-        </div>
-        <div class="cred">
-          <div class="cred-eyebrow">Est. 2021</div>
-          <h4>The Development Room</h4>
-          <p>Nairobi-based production company. Building the tools and stories the industry needs.</p>
-        </div>
-      </div>
+    <div class="fellow-card">
+      <div class="fellow-year">2006</div>
+      <div class="fellow-name">Berlinale Talent Campus</div>
+      <div class="fellow-org">Doc Station · Berlin</div>
     </div>
-    <div class="founder-body">
-      <p class="founder-quote">"Twenty years on film sets. Every role from runner to director. I've been the AD calling twelve departments when the lead actor is forty-five minutes late. I built the tool I needed every single day."</p>
-      <p>SetSync was built from inside the problem. Not by a product manager who watched a documentary about film sets, but by an AD who has actually charged walkies during lunch.</p>
-      <p>Every feature exists because something on a real set was broken. Smart pivot exists because actors are always late. Rolling mode exists because phones go off mid-take. Cast sides exist because the wrong version always gets emailed.</p>
-    </div>
-  </div>
-</section>
-
-<div class="cta-band">
-  <div class="cta-inner">
-    <div class="label-row"><span class="mono" style="color: rgba(255,255,255,0.6);">// Open access</span></div>
-    <h2>The shoot day just got easier.</h2>
-    <p>Free during early access. No credit card. No demo call. Open the app and use it on your next production.</p>
-    <a href="https://code-friend-maker-41.lovable.app" target="_blank" class="btn">
-      Open the app <span class="btn-arrow">→</span>
-    </a>
   </div>
 </div>
 
 <footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a href="/" class="logo"><svg class="logo-mark-svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="SetSync"><rect width="48" height="48" rx="10" fill="#0A0A0A"/><text x="24" y="28" font-family="'Geist', system-ui, sans-serif" font-weight="800" font-size="32" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.06em">S</text><text x="24" y="46" font-family="'Geist', system-ui, sans-serif" font-weight="800" font-size="32" fill="#E50914" text-anchor="middle" letter-spacing="-0.06em">S</text></svg><span>SetSync</span></a>
-      <p>The live coordination layer for film sets. Built in Nairobi. Used everywhere.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Product</h5>
-      <a href="https://code-friend-maker-41.lovable.app" target="_blank">Open app</a>
-      <a href="/callsheet">Call Sheet Builder</a>
-      <a href="/schedule">Production Schedule</a>
-      <a href="/wrap">Wrap Report</a>
-      <a href="#solution">Features</a>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <a href="#founder">Founder</a>
-      <a href="mailto:action@setsync.studio">Contact</a>
-      <a href="https://x.com/setsyncstudio">X / Twitter</a>
-    </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <a href="https://code-friend-maker-41.lovable.app/terms" target="_blank">Terms</a>
-      <a href="mailto:action@setsync.studio">Privacy</a>
-    </div>
+  <div class="footer-logo">
+    <div class="footer-ss"><span class="footer-ss-w">S</span><span class="footer-ss-r">S</span></div>
+    <span style="font-size:11px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;padding-left:8px;border-left:1px solid var(--border2)">Wanjiru Kairu</span>
   </div>
-  <div class="footer-bottom">
-    <p>© 2026 The Development Room Ltd · Nairobi</p>
-    <p>v0.9 / Early Access</p>
+  <div class="footer-links">
+    <a href="https://setsync.studio" class="footer-link" target="_blank">SetSync</a>
+    <a href="https://www.imdb.com/name/nm2620441/" class="footer-link" target="_blank">IMDB</a>
+    <a href="https://www.linkedin.com/in/wanjirukairu/" class="footer-link" target="_blank">LinkedIn</a>
+    <a href="https://vimeo.com/wanjiru" class="footer-link" target="_blank">Vimeo</a>
+    <a href="mailto:action@setsync.studio" class="footer-link">Email</a>
   </div>
+  <div class="footer-note">© 2026 Wanjiru Kairu · Nairobi / International · action@setsync.studio</div>
 </footer>
 
 </body>
